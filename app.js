@@ -27,6 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			squares[randomNum].innerHTML = 2
 
 			// check for game over
+            checkForLose()
 		} else {
 			generate()
 		}
@@ -162,7 +163,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 scoreDisplay.innerHTML = score
             }
         }
-        // checkForWin()
+        checkForWin()
     }
 
 
@@ -208,5 +209,56 @@ document.addEventListener("DOMContentLoaded", () => {
         moveDown()
         generate()
     }
+
+    // check for win
+    function checkForWin() {
+        for (let i = 0; i < squares.length; i++) {
+            if (squares[i].innerHTML == 2048) {
+                resultDisplay.innerHTML = "You win!"
+                document.removeEventListener("keydown", control)
+                setTimeout(clear, 3000)
+            }
+        }
+    }
+
+    function checkForLose() {
+        let zeros = 0
+        for (let i = 0; i < squares.length; i++) {
+            if (squares[i].innerHTML == 0) {
+                zeros++
+            }
+        }
+
+        if (zeros === 0) {
+            resultDisplay.innerHTML = "You lose!"
+            document.removeEventListener("keydown", control)
+            setTimeout(clear, 3000)
+        }
+
+    }
+
+    function clear() {
+        clearInterval(timer)
+    }
+
+    function addColors() {
+        for (let i = 0; i < squares.length; i++) {
+            if (squares[i].innerHTML == 0) squares[i].style.backgroundColor = "#afa192"
+            else if (squares[i].innerHTML == 2) squares[i].style.backgroundColor = "#eee4da"
+            else if (squares[i].innerHTML == 4) squares[i].style.backgroundColor = "#ede0c8"
+            else if (squares[i].innerHTML == 8) squares[i].style.backgroundColor = "#f2b179"
+            else if (squares[i].innerHTML == 16) squares[i].style.backgroundColor = "#f59563"
+            else if (squares[i].innerHTML == 32) squares[i].style.backgroundColor = "#f67c5f"
+            else if (squares[i].innerHTML == 64) squares[i].style.backgroundColor = "#f65e3b"
+            else if (squares[i].innerHTML == 128) squares[i].style.backgroundColor = "#edcf72"
+            else if (squares[i].innerHTML == 256) squares[i].style.backgroundColor = "#edcc61"
+            else if (squares[i].innerHTML == 512) squares[i].style.backgroundColor = "#edc850"
+            else if (squares[i].innerHTML == 1024) squares[i].style.backgroundColor = "#edc53f"
+            else if (squares[i].innerHTML == 2048) squares[i].style.backgroundColor = "#edc22e"
+        }
+    }
+
+    addColors()
+    let timer = setInterval(addColors, 50)
 
 })
